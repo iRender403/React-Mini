@@ -15,7 +15,7 @@ export default function CreateFiber(vdom, returnFiberNode) {
         stateNode: null,
         // 初始化链表
         // 兄弟节点
-        sbiling: null, 
+        sbiling: null,
         // 子节点
         children: null,
         // 父节点
@@ -44,8 +44,8 @@ export default function CreateFiber(vdom, returnFiberNode) {
         }
     } else if (isUndefined(type)) {
         fiber.tag = HostText;
-        fiber.props={
-            children:vdom 
+        fiber.props = {
+            children: vdom
         }
     }
 

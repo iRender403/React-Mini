@@ -1,16 +1,12 @@
-# React + Vite
+# mini React 
+这是一个mini react项目，实现的目的仅仅是能够把握react的整体流程，但是对于各种细节，例如
+- scheduler中的shouldYield() => 本次仅仅使用简单的时间判断来实现，而不是记录各种任务结束，执行时间的判断
+- scheduler中是否中断的判断 原本是callback任务返回的是否为函数，然后通过宏任务再次唤醒 => 本项目目前使用的是通过wipFiber是否为空来判断FiberTree是否构建完成
+- workLoop也是简易的实现
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+原因在于，目前为止我无法直接从零开始直接“完美”的复刻React，因为他实在是太庞大了
 
-Currently, two official plugins are available:
+在阅读源码和真正实现之间存在很大的挑战，比如我上面的简介，就可能存在严重的错误，但是这并不重要，我会不断的进行修正
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
