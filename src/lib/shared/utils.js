@@ -54,7 +54,10 @@ export function updateNode(node, preval, nextval) {
         // 每一个fibernode的children属性会有两种情况，一种是字符串，一种是数组
         // 这段代码的意思是，如果标签内部只是一段字符串，jsx就会把当前节点的child属性当成字符串来处理
         if (key === "children") {
-            node.textContent = "";
+            if(isStr(preval[key])){
+                // 进入此分支说明这个属性的值是字符串，我们需要把这个字符串从DOM节点上删除掉
+                node.textContent = "";
+            }
         } else if (key.slice(0, 2) === "on") {
             // 这段代码的意思是，如果属性名以on开头，说明这是一个事件属性，我们需要把事件属性上的事件监听函数给删除掉
             // 这里使用let的原因是这个eventName可能是change
@@ -79,7 +82,9 @@ export function updateNode(node, preval, nextval) {
     Object.keys(nextval).forEach(key => {
         if (key === "children") {
             // 进入此分支说明这个属性是children属性，我们需要把这个属性的值设置到DOM节点上  
-            node.textContent = nextval[key];
+            if (isStr(nextval[key])) {
+                node.textContent = nextval[key];
+            }
         } else if (key.slice(0, 2) === "on") {
             // 这段代码的意思是，如果属性名以on开头，说明这是一个事件属性，我们需要把事件属性上的事件监听函数给添加上
             let eventName = key.slice(2).toLocaleLowerCase();
