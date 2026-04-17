@@ -1,4 +1,4 @@
-import { beginWork } from "./beginWork";
+import { beginWork } from "./ReactFiberBeginWork";
 
 //  该文件负责整个React的执行流程
 
@@ -10,7 +10,6 @@ let wipRoot = null;
 
 export default function schedulerOnFiber(fiber) {
     wip = wipRoot = fiber;
-
     // 我们先使用这个来调度，之后使用scheduler来调度
     requestIdleCallback(workLoop);
 }
@@ -22,7 +21,7 @@ function workLoop(deadline) {
     while (wip && deadline.timeRemaining() > 0) {
         // 进入此循环说明，有要进行处理的Fiber节点
         // 并且有时间处理
-        performUnitOfWork()// 该方法负责处理Fiber节点
+        performUnitOfWork(wip)// 该方法负责处理Fiber节点
 
     }
     // 执行到这里，说明要么是执行中断了这种我们暂时不需要改要么就是执行执行结束了
@@ -56,7 +55,7 @@ function performUnitOfWork(wip) {
 
     // 如果没有下一个子节点，则执行当前子节点的compleWork方法
     completeWork(wip);
-
+    
     let next = wip;
     while (next) {
         if (next.sibling) {

@@ -1,30 +1,39 @@
 import { FunctionComponent, HostComponent, ClassComponent, HostText, Fragment } from "./ReactWorkTags";
-import { updateHostComponent, updateHostText } from "./ReactFiberReconciler";
-import { updateFunctionComponent } from "./ReactFiberReconciler";
-import { updateClassComponent } from "./ReactFiberReconciler";
-import { updateFragment } from "./ReactFiberReconciler";
+import { updateHostComponent,updateHostText } from "./ReactFiberReconciler";
 
 // 根据Fiber的Tag值，来调用不同的方法
+
+/**
+ * 在真实的react源码中，beginwork其实不参与生成真实的DOM，他是通过diff算法来生成副作用链表的，在这个链表上面会有一些标记，标记了这个节点需要进行什么样的操作
+ * 在我们这个版本中，我们就直接在beginwork中生成真实的DOM节点了，并且在生成的过程中进行属性的更新
+ * 
+ */
 
 /**
  *  
  * @param {*} wip 根据Fiber不同的Tag值，调用不同的方法来处理
  */
-export default function beginWork(wip) {
+export function beginWork(wip) {
     const tag = wip.tag;
     switch (tag) {
         case HostComponent:
-            return updateHostComponent(wip);
+            updateHostComponent(wip);
+            break;
         case HostText:
-            return updateHostText(wip);
+            updateHostText(wip);
+            break;
         case FunctionComponent:
-            return updateFunctionComponent(wip);
+            updateFunctionComponent(wip);
+            break;
         case ClassComponent:
-            return updateClassComponent(wip);
+            updateClassComponent(wip);
+            break;
         case Fragment:
-            return updateFragment(wip);
+            updateFragment(wip);
+            break;
         default:
             break;
     }
 
 }
+
