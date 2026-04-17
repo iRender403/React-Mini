@@ -27,3 +27,31 @@
 4. 完成了`performUnitOfWork`此方法的作用就是深度优先遍历FiberTree，总体流程为子->兄->兄子->父，
 
 5. 接下来是完成beginwork，他的主要作用是根据当前节点创建下一个FiberTree
+
+-- 这里用来记录未来该项目需要优化的部分
+
+# 关于BeginWork : beginwork的第一个版本
+当前的beginwork的实现思路和react中的实现思路大为不同
+
+## 先了解目前所处的阶段
+beginWork的调用栈: createRoot  -> render -> wip = createFiber -> schedulerOnFiber(wip) -> requestIdCallback(wip) -> wookLoop -> preformUntilOfWork -> beginWork
+
+## 再了解beginWork所执行的事情
+输入: wipFiber:根FiberNode
+内部: 
+1. 创建当前节点的DOM节点 (注意:在真实的React中，这一步其实是执行函数/类组件，绝对不是创建DOM节点，在beginwork阶段不涉及DOM节点的操作，那是completework的责任)
+2. 更新节点属性 utils.js -> updateNode(当前节点，旧的值，新的值)
+   1. 删除旧的值，删除之前事件监听
+   2. 更新新的值: 将新的属性挂载到DOM节点上
+
+## 说明
+
+这里我感到非常费解:mini-react中，beginWork的职责完全变了🤯，这个应该是complete的责任，现在全放到beginwork上去执行了
+
+真实的React中beginwork的主要职责应该是
+1. 创建下一级的Fiber节点
+2. 如果是update阶段，他会根据diffs算法，进行flags标记
+
+算了,这里先留着,看看之后是怎么处理的吧
+
+## 接下来要做的事情,链接FiberNode
