@@ -39,6 +39,14 @@ export function isUndefined(s) {
 }
 
 /**
+ * 判断arr是否为数组
+ * @param {*} arr 
+ * @returns 
+ */
+export function isArray(arr) {
+    return Array.isArray(arr);
+}
+/**
  * 该函数负责更新DOM节点上的属性
  * @param {*} node 真实的DOM节点
  * @param {*} preval 之前的属性对象
@@ -81,6 +89,7 @@ export function updateNode(node, preval, nextval) {
     // 2. 对新值的处理
     Object.keys(nextval).forEach(key => {
         if (key === "children") {
+            console.log(nextval)
             // 进入此分支说明这个属性是children属性，我们需要把这个属性的值设置到DOM节点上  
             if (isStr(nextval[key])) {
                 node.textContent = nextval[key];

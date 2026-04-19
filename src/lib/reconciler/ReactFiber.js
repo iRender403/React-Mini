@@ -2,7 +2,12 @@
 import { FunctionComponent, ClassComponent, HostComponent, HostText, Fragment } from "./ReactWorkTags";
 import { isFn, isStr, isUndefined } from "../shared/utils";
 import { Placement } from "../shared/utils";
-
+/**
+ * 专门用来创建Fiber对象的函数
+ * @param {*} vdom 子节点的虚拟DOM对象
+ * @param {*} returnFiberNode 父节点的Fiber对象
+ * @returns 
+ */
 export default function CreateFiber(vdom, returnFiberNode) {
     const fiber = {
         // 储存类型
