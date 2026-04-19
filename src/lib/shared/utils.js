@@ -89,7 +89,6 @@ export function updateNode(node, preval, nextval) {
     // 2. 对新值的处理
     Object.keys(nextval).forEach(key => {
         if (key === "children") {
-            console.log(nextval)
             // 进入此分支说明这个属性是children属性，我们需要把这个属性的值设置到DOM节点上  
             if (isStr(nextval[key])) {
                 node.textContent = nextval[key];

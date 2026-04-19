@@ -1,15 +1,14 @@
-
 // 该函数用来协调子节点的Fiber对象，生成子节点的Fiber对象，并且建立父子关系
 import CreateFiber from "./ReactFiber";
 import { isArray, isStr } from "../shared/utils";
-import { ContextConsumer } from "./ReactWorkTags";
+
 
 /**
  * 该方法的作用是根据父节点Fiber对象和子节点的虚拟DOM对象，来生成子节点的Fiber对象，并且建立父子关系
  * @param {*} returnFiber 父节点
  * @param {*} children 子节点
  */
-export function reconclieChildren(returnFiber, children) {
+export function reconcileChildren(returnFiber, children) {
     // 1. 如果该子节点是一个字符串或者数字，那么直接跳过，因为在beginwork中已经处理过了
     if (isStr(children)) {
         return;
@@ -44,16 +43,15 @@ export function reconclieChildren(returnFiber, children) {
 
     // 接下来就是初次渲染的情况
     if (!oldFiber) {
-        console.log('初次渲染');
         // 直接创建新的Fiber对象并且建立父子关系
         for (; i < newArray.length; i++) {
-            
+
             let newChildVnode = newArray[i];
-            // 如果新的子节点不为null或者undefined，那么就创建新的Fiber
-            console.log('newChildVnode', newChildVnode);
+            // 那么我们这一次就不处理，直接跳到下一次
+            if (newChildVnode === null) continue;
+            // 那么就创建新的Fiber
             const newFiber = CreateFiber(newChildVnode, returnFiber);
-            console.log('newFiber', newFiber);
-            
+
             // 接下来我们来更新lastPlacedIndex
             lastPlacedIndex = placeChild(newFiber, lastPlacedIndex, i, shouldTrackEffects);
             // 建立父子关系
@@ -62,14 +60,12 @@ export function reconclieChildren(returnFiber, children) {
                 returnFiber.children = newFiber;
             } else {
                 // 说明不是第一个子节点，那么就把它赋值给上一个Fiber对象的sbiling属性
-                previousNewFiber.sbiling = newFiber;
+                previousNewFiber.sibling = newFiber;
             }
             // 更新previousNewFiber的值
             previousNewFiber = newFiber;
-           
         }
     }
-     console.log('returnFiber', returnFiber);
 
 }
 
