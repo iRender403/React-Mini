@@ -107,3 +107,11 @@ export function updateNode(node, preval, nextval) {
     })
 
 }
+
+/**
+ * 获取当前的时间
+ * @returns 
+ * */
+export function getCurrentTime() {
+    return performance.now();
+}

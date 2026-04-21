@@ -1,6 +1,7 @@
 import { beginWork } from "./ReactFiberBeginWork";
 import { completeWork } from "./ReactFiberCompleteWork";
 import { commitWorker } from "./ReactFiberCommitWork";
+import { scheduleCallback } from "../scheduler/Scheduler";
 //  该文件负责整个React的执行流程
 
 // 正在进行的工作，我们使用这个变量来保存正在工作的Fiber对象
@@ -13,30 +14,43 @@ export default function
 schedulerOnFiber(fiber) {
     wip = wipRoot = fiber;
     // 我们先使用这个来调度，之后使用scheduler来调度
-    requestIdleCallback(workLoop);
+    scheduleCallback(workLoop);
 }
 
 //#region 这里的实现方式和源码有很大部分不同
 // 该函数会在有剩余时间的时候去执行
-function workLoop(deadline) {
-    while (wip && deadline.timeRemaining() > 0) {
-        // 进入此循环说明，有要进行处理的Fiber节点
-        // 并且有时间处理
-        performUnitOfWork()// 该方法负责处理Fiber节点
+// function workLoop(deadline) {
+//     while (wip && deadline.timeRemaining() > 0) {
+//         // 进入此循环说明，有要进行处理的Fiber节点
+//         // 并且有时间处理
+//         performUnitOfWork()// 该方法负责处理Fiber节点
 
-        }
+//         }
 
-    // 执行到这里，说明要么是执行中断了这种我们暂时不需要改要么就是执行执行结束了
-    if (!wip) {
-        // 到这里说明整个函数执行完毕了
-        // 执行结束了就要把任务提交出去
-        commitRoot();
-    }
+//     // 执行到这里，说明要么是执行中断了这种我们暂时不需要改要么就是执行执行结束了
+//     if (!wip) {
+//         // 到这里说明整个函数执行完毕了
+//         // 执行结束了就要把任务提交出去
+//         commitRoot();
+//     }
 
-}
+// }
 
 //#endregion
 
+/**
+ * 该函数会在浏览器空闲的时候执行，如果超过了该时间，那么就停止执行
+ * @param {*} time  该函数会在浏览器空闲的时候执行，time是浏览器空闲的时间
+ */
+function workLoop(time) {
+    while(wip){
+        if(time<=0) return false;
+        performUnitOfWork();
+    }
+    if(!wip && wipRoot){
+        commitRoot();
+    }
+}
 
 /**
  * 总共有下面的事情要做
