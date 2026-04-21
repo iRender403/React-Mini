@@ -32,7 +32,7 @@ export function reconcileChildren(returnFiber, children) {
         // 可能出现的情况如下1. key和type都相同，说明可以复用之前的节点
         // 2. key不同，说明不能复用，循环结束
         // 3. key相同，type不同，说明不能复用，将该节点标记为删除，继续遍历
-    }
+    }   
 
     // 从上面的for循环中出来可能出现两种情况
     // 1. 没有进入循环,说明是第一次遍历,oldFiber为null
@@ -49,15 +49,15 @@ export function reconcileChildren(returnFiber, children) {
             let newChildVnode = newArray[i];
             // 那么我们这一次就不处理，直接跳到下一次
             if (newChildVnode === null) continue;
-            // 那么就创建新的Fiber
+            // 就创建新的Fiber
             const newFiber = CreateFiber(newChildVnode, returnFiber);
-
             // 接下来我们来更新lastPlacedIndex
             lastPlacedIndex = placeChild(newFiber, lastPlacedIndex, i, shouldTrackEffects);
             // 建立父子关系
             if (previousNewFiber === null) {
                 // 说明这是第一个子节点，那么就把它赋值给父节点的children属性
                 returnFiber.children = newFiber;
+                console.log('returnFiber.children', returnFiber.children);  
             } else {
                 // 说明不是第一个子节点，那么就把它赋值给上一个Fiber对象的sbiling属性
                 previousNewFiber.sibling = newFiber;

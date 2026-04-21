@@ -20,7 +20,7 @@ export default function CreateFiber(vdom, returnFiberNode) {
         stateNode: null,
         // 初始化链表
         // 兄弟节点
-        sbiling: null,
+        sibling: null,
         // 子节点
         children: null,
         // 父节点
@@ -41,7 +41,7 @@ export default function CreateFiber(vdom, returnFiberNode) {
         fiber.tag = HostComponent
     } else if (isFn(type)) {
         // 这里会有两种情况，一种是函数组件一种是类组件
-        if (type.pototype.isReactComponent) {
+        if (type.prototype.isReactComponent) {
             // 如果有这个属性说明是函数组件
             fiber.tag = ClassComponent
         } else {
@@ -53,7 +53,6 @@ export default function CreateFiber(vdom, returnFiberNode) {
             children: vdom
         }
     }
-
     return fiber;
 }
 

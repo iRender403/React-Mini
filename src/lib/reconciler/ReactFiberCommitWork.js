@@ -12,10 +12,9 @@ function getFatherNode(wip) {
 }
 
 function commitNode(wip) {
-
+    if(!wip.stateNode) return;
     // 首先第一步我们要获取到当前节点的父节点
     let parentNode = getFatherNode(wip.return);
-    console.log('parentNode', parentNode, wip.return)
     //  进行一个DOM操作
     if (parentNode) {
         parentNode.appendChild(wip.stateNode);
@@ -28,7 +27,6 @@ function commitNode(wip) {
  */
 export function commitWorker(wipRoot) {
     // wipRoot.children
-    console.log('commitWorker wipRoot', wipRoot)
     if (!wipRoot) return;
     // 1.提交自己
     // 2.提交子节点

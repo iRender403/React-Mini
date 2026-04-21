@@ -9,7 +9,8 @@ let wip = null;
 let wipRoot = null;
 
 
-export default function schedulerOnFiber(fiber) {
+export default function 
+schedulerOnFiber(fiber) {
     wip = wipRoot = fiber;
     // 我们先使用这个来调度，之后使用scheduler来调度
     requestIdleCallback(workLoop);
@@ -23,7 +24,7 @@ function workLoop(deadline) {
         // 并且有时间处理
         performUnitOfWork()// 该方法负责处理Fiber节点
 
-    }
+        }
 
     // 执行到这里，说明要么是执行中断了这种我们暂时不需要改要么就是执行执行结束了
     if (!wip) {

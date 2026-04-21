@@ -1,5 +1,16 @@
-import { FunctionComponent, HostComponent, ClassComponent, HostText, Fragment } from "./ReactWorkTags";
-import { updateHostComponent,updateHostText } from "./ReactFiberReconciler";
+import {
+    FunctionComponent,
+    HostComponent,
+    ClassComponent,
+    HostText,
+    Fragment
+} from "./ReactWorkTags";
+import {
+    updateHostComponent,
+    updateHostText,
+    updateFunctionComponent,
+    updateClassComponent
+} from "./ReactFiberReconciler";
 
 // 根据Fiber的Tag值，来调用不同的方法
 
