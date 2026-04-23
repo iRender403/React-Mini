@@ -31,7 +31,6 @@ export default function CreateFiber(vdom, returnFiberNode) {
         index: null,
         // 存储旧 fiber 对象
         alternate: null,
-
     }
     //实际上fiber对象上面还有一个值就是tag,他用来标记fiber的类型值
     // 不同的类型的tag的值是不一样的

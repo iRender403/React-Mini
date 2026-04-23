@@ -25,11 +25,13 @@ let hasRemainingTime = true;
 
 // 通过 MessageChannel 来模拟浏览器的 requestIdleCallback
 const { port1, port2 } = new MessageChannel();
+
 /**
  * 该函数的作用是将任务添加到任务队列中
  * @param {*} callback 是一个需要执行的任务，会在浏览器空闲的时候执行
  */
 export function scheduleCallback(callback) {
+    
     // 获取当前的时间
     const currentTime = getCurrentTime();
 
@@ -59,8 +61,10 @@ export function scheduleCallback(callback) {
 
 // 每次port1.postMessage(null)的时候，都会触发port2.postMessage(null);
 port2.onmessage = () => {
+    
     // 获取当前时间
     const currentTime = getCurrentTime();
+    
     // 获取当前的任务
     let currentTask = pop(taskQueue);
 
@@ -72,10 +76,12 @@ port2.onmessage = () => {
         if(currentTask.expirationTime> currentTime&&!hasRemainingTime){
             break;
         }
+
         // 如果没有进入当前的循环，说明任务可以执行
-        const callback = currentTask.callback();
+        const callback = currentTask.callback;
         currentTask.callback = null;
         // 执行对应的任务，传入剩余的时间 
+        
         const taskResult = callback(currentTime-currentTask.expirationTime);
         
         if(taskResult===undefined){
